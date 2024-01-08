@@ -1,5 +1,6 @@
 
 import React, { useEffect, useState } from 'react'
+import { IndividualCrypto } from './IndividualCrypto';
 
 
 export const Formulario = () => {
@@ -30,26 +31,27 @@ export const Formulario = () => {
             const req = await fetch(`https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${fsyms}&tsyms=USD`);
             const res = await req.json();
             setCryptoRes(res.DISPLAY);
+            
         } catch (error) {
             console.log(error);
         }
     }
-
-    console.log(cryptoRes);
-   
+    console.log(cryptoRes.BTC.USD.PRICE);
 
   return (
     <div>
-        
+
+       
+
         <form 
             action=""
-            className='text-center mt-14'
+            className='text-center mt-10'
             onSubmit={handleSubmit}
         >
             <input 
                 type="text" 
                 className='w-full py-3 rounded-md px-3 '
-                onChange={(e) => setIndividualCrypto(event.target.value.toLowerCase())}
+                onChange={(e) => setIndividualCrypto(e.target.value.toLowerCase())}
             />
             <button
                 className='font-bold bg-indigo-700 rounded-md px-5 py-3 text-white uppercase w-full shadow-md mt-5 hover:bg-indigo-900 transition-all'
