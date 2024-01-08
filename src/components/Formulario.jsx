@@ -4,6 +4,7 @@ export const Formulario = () => {
     const [individualCrypto, setIndividualCrypto] = useState('');
     const [cryptoRes, setCryptoRes] = useState({});
     const [name, setName] = useState('');
+    const [cryptoNotFound, setCryptoNotFound] = useState(false);
 
     const cryptoAbbreviations = {
         'bitcoin': 'BTC',
@@ -31,17 +32,26 @@ export const Formulario = () => {
         'crypto-com-chain': 'CRO',
         'neo': 'NEO',
         'maker': 'MKR'
-        
     };
-    
-    
-    
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(`Se buscará: ${individualCrypto}`);
-        findIndividualCrypto(individualCrypto);
-        setName(individualCrypto);
+        
+
+        if(individualCrypto.length <= 0) return ;
+
+        const foundCrypto = await findIndividualCrypto(individualCrypto);
+
+        if (!foundCrypto) {
+            // Si no se encontró la criptomoneda, muestra el bloque indicado
+            setCryptoRes({}); // Limpiar cryptoRes para asegurar que no se muestre el bloque con datos anteriores
+            setName('');
+            setCryptoNotFound(true);
+        } else {
+            // Si se encontró la criptomoneda, actualiza el nombre y resetea la bandera
+            setName(individualCrypto);
+            setCryptoNotFound(false);
+        }
     }
 
     const findIndividualCrypto = async (crypto) => {
@@ -65,41 +75,54 @@ export const Formulario = () => {
 
                 if (dataToDisplay) {
                     setCryptoRes(dataToDisplay);
+                    return true; // Indica que se encontró la criptomoneda
                 } else {
                     console.error("No se pudo obtener datos de la moneda.");
                 }
             } else {
                 console.error("No se pudo encontrar la clave de la moneda en la respuesta.");
             }
+
+            return false; // Indica que no se encontró la criptomoneda
         } catch (error) {
             console.log(error);
+            return false; // Indica que no se encontró la criptomoneda debido a un error
         }
     }
 
     return (
         <div>
-            {
-                cryptoRes.FROMSYMBOL &&
-                <div className="bg-indigo-700 rounded-md p-4 mt-10">
+            {cryptoNotFound && (
+                <div className="bg-red-500 rounded-md p-4 mt-10">
                     <h1 className="text-white font-bold uppercase text-2xl text-center">
-                        {name}
+                        La criptomoneda no existe
                     </h1>
-                    <div className="flex mt-5 text justify-center mb-5">
-                        <div className="ml-6 text-white">
-                            <h2 className="">
-                                <span className="font-semibold">Precio: </span>{cryptoRes.PRICE}
-                            </h2>
-                            <div>
-                                <h3 className="">
-                                    <span className="font-semibold">Alto del día: </span>{cryptoRes.HIGHDAY}
-                                </h3>
+                </div>
+            )}
+
+            {
+                (cryptoRes.FROMSYMBOL && Object.keys(cryptoRes).length > 0) ? (
+                    <div className="bg-indigo-700 rounded-md p-4 mt-10">
+                        <h1 className="text-white font-bold uppercase text-2xl text-center">
+                            {name}
+                        </h1>
+                        <div className="flex mt-5 text justify-center mb-5">
+                            <div className="ml-6 text-white">
                                 <h2 className="">
-                                    <span className="font-semibold">Bajo del día: </span>{cryptoRes.LOWDAY}
+                                    <span className="font-semibold">Precio: </span>{cryptoRes.PRICE}
                                 </h2>
+                                <div>
+                                    <h3 className="">
+                                        <span className="font-semibold">Alto del día: </span>{cryptoRes.HIGHDAY}
+                                    </h3>
+                                    <h2 className="">
+                                        <span className="font-semibold">Bajo del día: </span>{cryptoRes.LOWDAY}
+                                    </h2>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                ) : null
             }
 
             <form
@@ -120,5 +143,5 @@ export const Formulario = () => {
                 </button>
             </form>
         </div>
-    )
+    );
 }

@@ -34,7 +34,7 @@ const App = () => {
 
         <Formulario />
         <List cryptos={cryptos} />
-        <p className='text-sm text-white mt-5'>by <a href="">@juancarlosisordiabetancourt</a></p>
+        <p className='text-sm text-white mt-5'>by <a className='hover:text-indigo-700 transition-all' href="https://www.linkedin.com/in/juan-carlos-isordia-betancourt-ab6aba271/">@juancarlosisordiabetancourt</a></p>
       </div>
     </div>
   )
