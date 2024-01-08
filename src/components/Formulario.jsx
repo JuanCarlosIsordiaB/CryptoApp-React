@@ -95,7 +95,7 @@ export const Formulario = () => {
             {cryptoNotFound && (
                 <div className="bg-red-500 rounded-md p-4 mt-10">
                     <h1 className="text-white font-bold uppercase text-2xl text-center">
-                        La criptomoneda no existe
+                        Cryptocurrency does not exist
                     </h1>
                 </div>
             )}
