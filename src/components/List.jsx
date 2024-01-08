@@ -11,8 +11,8 @@ const List = ({ cryptos }) => {
             <div key={index} className='flex justify-between border p-2 border-indigo-700'>
                 <div className='flex'>
                     <p className='font-semibold text-white mr-3 p-1 text-sm'>{index+1}</p>
+                    <img  alt="" />
                     <p className='font-bold text-white text-xl'>{crypto.CoinInfo.FullName}</p>
-                    <img src='crypto.coinInfo.ImageURL 'alt="" />
                 </div>
                 <div className='flex'>
                    <p className='font-semibold text-indigo-800 text-md mr-2'>${crypto.RAW.USD.PRICE.toFixed(3)}</p> 

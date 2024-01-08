@@ -25,14 +25,16 @@ const App = () => {
 
 
   return (
-    <div className='flex items-center justify-center h-screen mx-3 md:mx-0'>
+    <div className='md:flex items-center justify-center h-screen mx-3 my-3 md:my-0 md:mx-0  md:mb-0'>
+
       <div className='bg-indigo-400 p-8 rounded-lg'>
 
         <h1 className='font-bold text-4xl text-white'>Start checking your <span className='text-indigo-700'>cryptos</span>.</h1>
+        
 
         <Formulario />
         <List cryptos={cryptos} />
-
+        <p className='text-sm text-white mt-5'>by <a href="">@juancarlosisordiabetancourt</a></p>
       </div>
     </div>
   )
